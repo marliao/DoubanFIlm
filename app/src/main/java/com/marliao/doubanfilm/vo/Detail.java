@@ -3,17 +3,17 @@ package com.marliao.doubanfilm.vo;
 import java.util.List;
 
 public class Detail {
-    private List<String> avatars;
+    private String small;
     private String name_en;
     private String name;
     private String alt;
 
-    public List<String> getAvatars() {
-        return avatars;
+    public String getSmall() {
+        return small;
     }
 
-    public void setAvatars(List<String> avatars) {
-        this.avatars = avatars;
+    public void setSmall(String small) {
+        this.small = small;
     }
 
     public String getName_en() {

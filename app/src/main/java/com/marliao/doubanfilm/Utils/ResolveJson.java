@@ -1,5 +1,8 @@
 package com.marliao.doubanfilm.Utils;
 
+import android.text.TextUtils;
+import android.util.Log;
+
 import com.marliao.doubanfilm.vo.Detail;
 import com.marliao.doubanfilm.vo.Douban;
 import com.marliao.doubanfilm.vo.Subjects;
@@ -28,29 +31,27 @@ public class ResolveJson {
         JSONArray jsonSubjects = jsonObject.getJSONArray("subjects");
         List<Subjects> subjectsList = new ArrayList<>();
         for (int i = 0; i < jsonSubjects.length(); i++) {
+            JSONObject jsonSubjectsJSONObject = jsonSubjects.getJSONObject(i);
             Subjects subjects = new Subjects();
 
-            JSONArray jsonGenres = jsonSubjects.getJSONObject(i).getJSONArray("genres");
+            JSONArray jsonGenres = jsonSubjectsJSONObject.getJSONArray("genres");
             List<String> genresList = new ArrayList<>();
             for (int j = 0; j < jsonGenres.length(); j++) {
                 genresList.add(jsonGenres.getString(j));
             }
             subjects.setGenres(genresList);
 
-            String title = jsonSubjects.getJSONObject(i).getString("title");
+            String title = jsonSubjectsJSONObject.getString("title");
             subjects.setTitle(title);
 
-            JSONArray jsonCasts = jsonSubjects.getJSONObject(i).getJSONArray("casts");
+            JSONArray jsonCasts = jsonSubjectsJSONObject.getJSONArray("casts");
             List<Detail> detailCastsLists = new ArrayList<>();
             for (int j = 0; j < jsonCasts.length(); j++) {
                 Detail detail = new Detail();
 
-                JSONObject avatars = jsonCasts.getJSONObject(j).getJSONObject("avatars");
-                List<String> avatarsList = new ArrayList<>();
-                avatarsList.add(avatars.getString("small"));
-                avatarsList.add(avatars.getString("large"));
-                avatarsList.add(avatars.getString("medium"));
-                detail.setAvatars(avatarsList);
+                /*JSONObject avatars = jsonCasts.getJSONObject(j).getJSONObject("avatars");
+                detail.setSmall(avatars.getString("small"));*/
+                //todo  主演照片没拿
 
                 detail.setName_en(jsonCasts.getJSONObject(j).getString("name_en"));
                 detail.setName(jsonCasts.getJSONObject(j).getString("name"));
@@ -60,57 +61,59 @@ public class ResolveJson {
             }
             subjects.setCasts(detailCastsLists);
 
-            JSONArray durations = jsonSubjects.getJSONObject(i).getJSONArray("durations");
+            JSONArray durations = jsonSubjectsJSONObject.getJSONArray("durations");
             for (int j = 0; j < durations.length(); j++) {
                 subjects.setDurations(durations.getString(j));
             }
 
-            subjects.setCollect_count(jsonSubjects.getJSONObject(i).getLong("collect_count"));
-            subjects.setMainland_pubdate(jsonSubjects.getJSONObject(i).getString("mainland_pubdate"));
-            subjects.setOriginal_title(jsonSubjects.getJSONObject(i).getString("original_title"));
+            subjects.setCollect_count(jsonSubjectsJSONObject.getLong("collect_count"));
+            subjects.setMainland_pubdate(jsonSubjectsJSONObject.getString("mainland_pubdate"));
+            subjects.setOriginal_title(jsonSubjectsJSONObject.getString("original_title"));
 
-            JSONArray jsonDirectors = jsonSubjects.getJSONObject(i).getJSONArray("directors");
+            JSONArray jsonDirectors = jsonSubjectsJSONObject.getJSONArray("directors");
             List<Detail> detailDirectorsList = new ArrayList<>();
             for (int j = 0; j < jsonDirectors.length(); j++) {
                 Detail detail = new Detail();
+                JSONObject jsonObject1 = jsonDirectors.getJSONObject(j);
+                /*String avatars = jsonObject1.getString("avatars");
+                if (!TextUtils.isEmpty(avatars)) {
+                    Log.i("=============" + i, avatars);
+                    JSONObject jsonObject2 = new JSONObject(avatars);
+                    detail.setSmall(jsonObject2.getString("small"));
+                }*/
+                //TODO 导演照片没拿
 
-                JSONObject avatars = jsonDirectors.getJSONObject(j).getJSONObject("avatars");
-                List<String> avatarsList = new ArrayList<>();
-                avatarsList.add(avatars.getString("small"));
-                avatarsList.add(avatars.getString("large"));
-                avatarsList.add(avatars.getString("medium"));
-                detail.setAvatars(avatarsList);
-
-                detail.setName_en(jsonDirectors.getJSONObject(j).getString("name_en"));
-                detail.setName(jsonDirectors.getJSONObject(j).getString("name"));
-                detail.setAlt(jsonDirectors.getJSONObject(j).getString("alt"));
+                detail.setName_en(jsonObject1.getString("name_en"));
+                detail.setName(jsonObject1.getString("name"));
+                detail.setAlt(jsonObject1.getString("alt"));
 
                 detailDirectorsList.add(detail);
             }
             subjects.setDirectors(detailDirectorsList);
 
-            JSONArray jsonPubdates = jsonSubjects.getJSONObject(i).getJSONArray("pubdates");
+            JSONArray jsonPubdates = jsonSubjectsJSONObject.getJSONArray("pubdates");
             List<String> pubdatesList = new ArrayList<>();
             for (int j = 0; j < jsonPubdates.length(); j++) {
                 pubdatesList.add(jsonPubdates.getString(j));
             }
             subjects.setPubdates(pubdatesList);
 
-            String year = jsonSubjects.getJSONObject(i).getString("year");
+            String year = jsonSubjectsJSONObject.getString("year");
             subjects.setYear(year);
 
-            JSONObject jsonImages = jsonSubjects.getJSONObject(i).getJSONObject("images");
+            JSONObject jsonImages = jsonSubjectsJSONObject.getJSONObject("images");
             List<String> imageslist = new ArrayList<>();
             imageslist.add(jsonImages.getString("small"));
             imageslist.add(jsonImages.getString("large"));
             imageslist.add(jsonImages.getString("medium"));
             subjects.setImages(imageslist);
 
-            subjects.setAlt(jsonSubjects.getJSONObject(i).getString("alt"));
+            subjects.setAlt(jsonSubjectsJSONObject.getString("alt"));
             subjectsList.add(subjects);
         }
         douban.setSubjects(subjectsList);
         douban.setTitle(jsonObject.getString("title"));
         return douban;
     }
+
 }

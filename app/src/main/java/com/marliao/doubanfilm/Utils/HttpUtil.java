@@ -58,7 +58,6 @@ public class HttpUtil {
                     baos.write(buffer, 0, len);
                 }
                 baos.flush();
-                Log.e("TAG", "-------------------" + baos.toString());
                 return baos.toString();
             } else {
                 throw new RuntimeException("responseCode is not 200...");

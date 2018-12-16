@@ -28,12 +28,12 @@ public class MainActivity extends AppCompatActivity {
     private static final int HAVEDATA = 101;
     private EditText etScreeningCity;
     private ImageView ivSearch;
-    private Handler mHandler=new Handler(){
+    private Handler mHandler = new Handler() {
         @Override
         public void handleMessage(Message msg) {
-            switch (msg.what){
+            switch (msg.what) {
                 case HAVEDATA:
-                    startActivity(new Intent(MainActivity.this,MoveListActivity.class));
+                    startActivity(new Intent(MainActivity.this, MoveListActivity.class));
                     break;
                 case NODATA:
                     showDIalogToTellUser();
@@ -71,14 +71,14 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View v) {
                 String cityName = etScreeningCity.getText().toString().trim();
                 if (cityName != null && !TextUtils.isEmpty(cityName)) {
-                    String regular="[\u4e00-\u9fa5]{2,10}";
+                    String regular = "[\u4e00-\u9fa5]{2,10}";
                     Pattern pattern = Pattern.compile(regular);
                     if (pattern.matcher(cityName).matches()) {
                         getHttpData(cityName);
-                    }else {
+                    } else {
                         MyApplication.showToast("请输入正确的城市名！");
                     }
-                }else {
+                } else {
                     MyApplication.showToast("城市不能为空！");
                 }
             }
@@ -86,22 +86,21 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void getHttpData(final String cityName) {
-        new Thread(){
+        new Thread() {
             @Override
             public void run() {
                 try {
                     String generahttp = GeneraJson.generahttp(cityName);
-                    Log.i("==========",generahttp);
                     String httpResult = HttpUtil.doGet(generahttp);
                     Douban douban = ResolveJson.resolveJson(httpResult);
                     if (douban == null) {
                         Message msg = Message.obtain();
-                        msg.what=NODATA;
+                        msg.what = NODATA;
                         mHandler.sendMessage(msg);
                     }
                     MyApplication.setDouban(douban);
                     Message msg = Message.obtain();
-                    msg.what=HAVEDATA;
+                    msg.what = HAVEDATA;
                     mHandler.sendMessage(msg);
                 } catch (Exception e) {
                     e.printStackTrace();

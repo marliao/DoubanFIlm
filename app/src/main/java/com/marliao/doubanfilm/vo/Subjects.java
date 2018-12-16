@@ -1,5 +1,7 @@
 package com.marliao.doubanfilm.vo;
 
+import android.graphics.drawable.Drawable;
+
 import java.util.Date;
 import java.util.List;
 
@@ -15,7 +17,16 @@ public class Subjects {
     private List<String> pubdates;
     private String year;
     private List<String> images;
+    private Drawable drawable;
     private String alt;
+
+    public Drawable getDrawable() {
+        return drawable;
+    }
+
+    public void setDrawable(Drawable drawable) {
+        this.drawable = drawable;
+    }
 
     public List<String> getGenres() {
         return genres;
