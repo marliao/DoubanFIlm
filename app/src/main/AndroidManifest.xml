@@ -20,8 +20,10 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".Activity.MoveListActivity"
-            android:launchMode="singleTask"></activity>
+        <activity
+            android:name=".Activity.MoveListActivity"
+            android:launchMode="singleTask" />
+        <activity android:name=".Activity.WebInfoActivity"></activity>
     </application>
 
 </manifest>

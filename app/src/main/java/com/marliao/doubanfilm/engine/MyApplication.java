@@ -9,6 +9,25 @@ import com.marliao.doubanfilm.vo.Douban;
 public class MyApplication extends Application {
 
     private static Douban douban;
+    private static String url;
+
+    public static String getTitle() {
+        return title;
+    }
+
+    public static void setTitle(String title) {
+        MyApplication.title = title;
+    }
+
+    private static String title;
+
+    public static String getUrl() {
+        return url;
+    }
+
+    public static void setUrl(String url) {
+        MyApplication.url = url;
+    }
 
     public static Douban getDouban() {
         return douban;
